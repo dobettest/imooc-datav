@@ -1,7 +1,6 @@
 import Vue from 'vue'
-import { Button, Card, Row, Col } from 'element-ui'
-
-Vue.use(Button)
-Vue.use(Card)
-Vue.use(Row)
-Vue.use(Col)
+import { Button, Card, Row, Col, Menu, MenuItem, RadioGroup, RadioButton, DatePicker } from 'element-ui'
+const arr = [Button, Card, Row, Col, Menu, MenuItem, RadioGroup, RadioButton, DatePicker]
+for (const item of arr) {
+  Vue.use(item)
+}

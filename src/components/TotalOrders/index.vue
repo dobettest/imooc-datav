@@ -1,7 +1,7 @@
 <template>
   <common-card title="累计订单量" value="2,115,465">
     <template>
-      <div ref="chartDom" style="width: 100%; height: 100%"></div>
+      <div ref="chartDom" class="echarts"></div>
     </template>
     <template v-slot:footer>
       <span>昨日订单量</span>

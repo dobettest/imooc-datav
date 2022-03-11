@@ -1,7 +1,7 @@
 <template>
   <common-card title="累计用户数" value="1,064,533">
     <template>
-      <div ref="chartDom" style="width: 100%; height: 100%"></div>
+      <div ref="chartDom" class="echarts"></div>
     </template>
     <template v-slot:footer>
       <div class="total-users-footer">

@@ -3,7 +3,9 @@ module.exports = {
   env: {
     node: true
   },
+  plugins: ['sonarjs'],
   extends: [
+    'plugin:sonarjs/recommended',
     'plugin:vue/essential',
     '@vue/standard'
   ],

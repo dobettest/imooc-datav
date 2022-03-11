@@ -1,7 +1,7 @@
 <template>
   <common-card title="今日交易用户数" value="59,648">
     <template>
-      <div ref="chartDom" style="width: 100%; height: 100%"></div>
+      <div ref="chartDom" class="echarts"></div>
     </template>
     <template v-slot:footer>
       <span>退货率</span>
