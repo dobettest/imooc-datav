@@ -2,7 +2,9 @@
   <div class="bottom-view">
     <div class="view">
       <el-card shadow="hover">
-        <template v-slot:header> 关键词搜索 </template>
+        <template v-slot:header>
+          <div class="title-wrapper">关键词搜索</div>
+        </template>
         <template>
           <div class="chart-wrapper">
             <div class="chart-inner">
@@ -50,7 +52,9 @@
           </div>
         </template>
         <template>
-          <v-chart :option="categoryOption"></v-chart>
+          <div class="chart-wrapper">
+            <v-chart :option="categoryOption"></v-chart>
+          </div>
         </template>
       </el-card>
     </div>
@@ -167,7 +171,120 @@ export default {
   methods: {
     onPageChange (page) {
       console.log(page)
+    },
+    initCategoryOption () {
+      const mockData = [
+        {
+          legendname: '粉面粥点',
+          name: '粉面粥点|30%',
+          value: 30,
+          percent: '30',
+          itemStyle: {
+            color: '#5085f2'
+          }
+        },
+        {
+          legendname: '粉面粥点',
+          name: '简餐便当|30%',
+          value: 20,
+          percent: '20',
+          itemStyle: {
+            color: '#e7e702'
+          }
+        },
+        {
+          legendname: '粉面粥点',
+          name: '汉堡披萨|50%',
+          value: 50,
+          percent: '50',
+          itemStyle: {
+            color: '#8d7fec'
+          }
+        }
+      ]
+      this.categoryOption = {
+        title: [
+          {
+            text: '品类分布',
+            textStyle: {
+              color: '#666',
+              fontSize: 14
+            },
+            left: 20,
+            top: 20
+          },
+          {
+            text: '累计订单量',
+            textStyle: {
+              color: '#999',
+              fontSize: 14
+            },
+            subtext: '320',
+            subtextStyle: {
+              color: '#333',
+              fontSize: 28
+            },
+            x: '34,5%',
+            y: '42.5%',
+            textAlign: 'center'
+          }
+        ],
+        legend: {
+          type: 'scroll',
+          orient: 'vertical',
+          height: 250,
+          left: '70%',
+          top: 'middle',
+          textStyle: {
+            color: '#8c8c8c'
+          }
+        },
+        tooltip: {
+          formatter: function (params) {
+            const {
+              data: { legendname, value, percent },
+              marker
+            } = params
+            return (
+              marker +
+              legendname +
+              '<br/>' +
+              `数量: ${value}` +
+              '<br/>' +
+              `占比: ${percent}%`
+            )
+          }
+        },
+        series: [
+          {
+            type: 'pie',
+            data: mockData,
+            label: {
+              formatter: function (params) {
+                console.log(params)
+                const { name } = params.data
+                return `${name}`
+              }
+            },
+            center: ['35%', '50%'],
+            radius: ['45%', '60%'],
+            labelLine: {
+              length: 5,
+              length2: 3,
+              smooth: true
+            },
+            itemStyle: {
+              // 环形中间空白效果
+              borderWidth: 4,
+              borderColor: '#fff'
+            }
+          }
+        ]
+      }
     }
+  },
+  mounted () {
+    this.initCategoryOption()
   }
 }
 </script>
@@ -232,7 +349,7 @@ export default {
         flex: 1;
         margin-top: 20px;
         padding: 0 20px 20px 20px;
-        .el-pagination{
+        .el-pagination {
           display: flex;
           justify-content: flex-end;
           align-items: center;
