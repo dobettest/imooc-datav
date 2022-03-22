@@ -5,8 +5,10 @@ import './plugins/element.js'
 import * as echarts from 'echarts'
 import VueEcharts from 'vue-echarts'
 import './style/index.css'
+import request from './utils/request'
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
+Vue.prototype.$request = request
 Vue.component('v-chart', VueEcharts)
 new Vue({
   router,

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <top-view/>
+    <top-view />
     <sales-view />
     <bottom-view />
     <map-view />
@@ -13,13 +13,35 @@ import TopView from '@/components/TopView'
 import SalesView from '@/components/SalesView'
 import BottomView from '@/components/BottomView'
 import MapView from '@/components/MapView'
+import { screenData } from '@/api'
 export default {
   name: 'HomeView',
+  data () {
+    return {
+      screenData: null
+    }
+  },
   components: {
     TopView,
     SalesView,
     BottomView,
     MapView
+  },
+  methods: {
+    getScreenData () {
+      return this.screenData
+    }
+  },
+  provide () {
+    return {
+      screenData: this.getScreenData
+    }
+  },
+  mounted () {
+    screenData().then((data) => {
+      // console.log(data)
+      this.screenData = data
+    })
   }
 }
 </script>
