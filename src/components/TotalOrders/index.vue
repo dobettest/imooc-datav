@@ -1,20 +1,39 @@
 <template>
-  <common-card title="累计订单量" value="2,115,465">
+  <common-card
+    title="累计订单量"
+    :value="orderToday"
+  >
     <template>
-      <div ref="chartDom" class="echarts"></div>
+      <div
+        ref="chartDom"
+        class="echarts"
+      ></div>
     </template>
     <template v-slot:footer>
       <span>昨日订单量</span>
-      <span class="order">2,000,000</span>
+      <span class="order">{{orderLastDay}}</span>
     </template>
   </common-card>
 </template>
 
 <script>
 import commonCardMixin from '@/mixins/commonCardMixin'
+import { wrapperNumber } from '@/utils/wrapper'
 export default {
   name: 'TotalOrders',
   mixins: [commonCardMixin],
+  inject: ['screenData'],
+  computed: {
+    reportData () {
+      return this.screenData()
+    },
+    orderToday () {
+      return wrapperNumber(this.reportData, 'orderToday')
+    },
+    orderLastDay () {
+      return wrapperNumber(this.reportData, 'orderLastDay')
+    }
+  },
   mounted () {
     const chart = this.$echarts.init(this.$refs.chartDom)
     chart.setOption({

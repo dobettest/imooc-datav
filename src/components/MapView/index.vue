@@ -14,6 +14,16 @@
           </div>
         </template>
       </el-card>
+      <el-card shadow="hover">
+        <template v-slot:header>
+          <div class="title">热门搜索</div>
+        </template>
+        <template>
+          <div class="chart-wrapper">
+            <word-cloud></word-cloud>
+          </div>
+        </template>
+      </el-card>
     </div>
   </div>
 </template>
@@ -21,11 +31,13 @@
 <script>
 import BMapScatter from '@/components/BMapScatter'
 import LiquidFill from '@/components/LiquidFill'
+import WordCloud from '@/components/WordCloud'
 export default {
   name: 'MapView',
   components: {
     BMapScatter,
-    LiquidFill
+    LiquidFill,
+    WordCloud
   }
 }
 </script>

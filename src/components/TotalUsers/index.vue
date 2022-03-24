@@ -1,14 +1,17 @@
 <template>
-  <common-card title="累计用户数" value="1,064,533">
+  <common-card
+    title="累计用户数"
+    :value="userToday"
+  >
     <template>
-      <v-chart :option="options"></v-chart>
+      <v-chart :option="initOption()"></v-chart>
     </template>
     <template v-slot:footer>
       <div class="total-users-footer">
         <span>日同比</span>
-        <span class="emphasis increase">6.36%</span>
+        <span class="emphasis increase">{{userGrowthLastDay}}</span>
         <span class="month">月同比</span>
-        <span class="emphasis decrease">6.36%</span>
+        <span class="emphasis decrease">{{userGrowthLastMonth}}</span>
       </div>
     </template>
   </common-card>
@@ -16,12 +19,14 @@
 
 <script>
 import commonCardMixin from '@/mixins/commonCardMixin'
+import { wrapperNumber } from '@/utils/wrapper'
 export default {
   name: 'TotalUsers',
   mixins: [commonCardMixin],
-  data () {
-    return {
-      options: {
+  inject: ['screenData'],
+  methods: {
+    initOption () {
+      return {
         xAxis: {
           show: false
         },
@@ -31,17 +36,20 @@ export default {
         },
         series: [
           {
+            name: '上月平台用户数',
             type: 'bar',
-            data: [200],
+            data: [this.userGrowthLastDay],
             stack: '总量',
             barWidth: 10,
             itemStyle: {
-              color: 'green'
+              color: '#45c946',
+              background: '#eee'
             }
           },
           {
+            name: '今日平台用户数',
             type: 'bar',
-            data: [250],
+            data: [this.userGrowthLastMonth],
             stack: '总量',
             barWidth: 10,
             itemStyle: {
@@ -51,7 +59,7 @@ export default {
           {
             type: 'custom',
             stack: '总量',
-            data: [200],
+            data: [this.userGrowthLastDay],
             renderItem: function (_params, api) {
               console.log('params')
               const value = api.value(0)
@@ -100,6 +108,20 @@ export default {
           left: 0
         }
       }
+    }
+  },
+  computed: {
+    reportData () {
+      return this.screenData()
+    },
+    userToday () {
+      return wrapperNumber(this.reportData, 'userToday')
+    },
+    userGrowthLastDay () {
+      return wrapperNumber(this.reportData, 'userGrowthLastDay')
+    },
+    userGrowthLastMonth () {
+      return wrapperNumber(this.reportData, 'userGrowthLastMonth')
     }
   }
 }
