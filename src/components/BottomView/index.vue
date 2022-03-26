@@ -20,18 +20,35 @@
               </div>
             </div>
             <div class="table-wrapper">
-              <el-table :data="tableData" row-key="id">
-                <el-table-column prop="rank" label="排名" width="180" />
-                <el-table-column prop="keywords" label="关键词" width="180" />
-                <el-table-column prop="count" label="总搜索量" />
-                <el-table-column prop="users" label="搜索用户数" />
+              <el-table
+                :data="tableData"
+                row-key="id"
+              >
+                <el-table-column
+                  prop="rank"
+                  label="排名"
+                  width="180"
+                />
+                <el-table-column
+                  prop="keywords"
+                  label="关键词"
+                  width="180"
+                />
+                <el-table-column
+                  prop="count"
+                  label="总搜索量"
+                />
+                <el-table-column
+                  prop="users"
+                  label="搜索用户数"
+                />
               </el-table>
               <el-pagination
                 layout="prev,pager,next"
                 :page-size="4"
-                :total="100"
+                :total="totalData.length"
                 background
-                @current-change="onPageChange"
+                @current-change="renderTable"
               />
             </div>
           </div>
@@ -44,7 +61,7 @@
           <div class="title-wrapper">
             <div class="title">分类销售排行</div>
             <div class="radio-wrapper">
-              <el-radio-group v-model="radioSelect">
+              <el-radio-group v-model="radioSelect" @change="onCategoryChange">
                 <el-radio-button label="品类"></el-radio-button>
                 <el-radio-button label="商品"></el-radio-button>
               </el-radio-group>
@@ -62,171 +79,202 @@
 </template>
 
 <script>
+import { wrapperObject } from '@/utils/wrapper'
+const colors = [
+  '#8d7fec',
+  '#5085f2',
+  '#f8726b',
+  '#e7e702',
+  '#78f283',
+  '#4bc1fc'
+]
 export default {
   name: 'BottomView',
   data () {
     return {
-      searchUserOption: {
+      radioSelect: '品类',
+      categoryOption: {},
+      pageSize: 4,
+      pageNum: 1
+    }
+  },
+  inject: ['wordCloudData', 'screenData'],
+  computed: {
+    reportData () {
+      return this.screenData()
+    },
+    category1 () {
+      return wrapperObject(this.reportData, 'category.data1')
+    },
+    category2 () {
+      return wrapperObject(this.reportData, 'category.data2')
+    },
+    rawData () {
+      const data = this.wordCloudData()
+      return Array.isArray(data) ? data : []
+    },
+    totalData () {
+      return this.rawData.map((item, index) => {
+        return {
+          id: index + 1,
+          rank: index + 1,
+          keywords: item.word,
+          count: item.count,
+          users: item.user,
+          range: `${((item.user / item.count) * 100).toFixed(2)}%`
+        }
+      })
+    },
+    tableData () {
+      const { pageNum } = this
+      return this.totalData.slice(
+        (pageNum - 1) * this.pageSize,
+        (pageNum - 1) * this.pageSize + this.pageSize
+      )
+    },
+    searchUserOption () {
+      return this.createOption('user')
+    },
+    searchNumOption () {
+      return this.createOption('count')
+    }
+  },
+  methods: {
+    onCategoryChange (type) {
+      this.radioSelect = type
+      this.renderPieChart()
+    },
+    createOption (key) {
+      const { data, axis } = this.rawData.reduce(
+        ({ data, axis }, item) => {
+          return {
+            data: data.concat(item[key]),
+            axis: axis.concat(item[key])
+          }
+        },
+        { data: [], axis: [] }
+      )
+      return {
         xAxis: {
           type: 'category',
-          boundaryGap: false
+          boundaryGap: false,
+          data: axis
         },
         yAxis: {
           show: false
         },
+        tooltip: {},
         series: [
           {
             type: 'line',
-            data: [100, 150, 200, 250, 200, 150, 100, 50, 100, 150],
-            itemStyle: {
-              opacity: 0,
-              smooth: true
-            },
+            data,
             areaStyle: {
-              color: 'rgba(95, 187, 255, 0.5)'
+              color: 'rgba(95,187,255,.5)'
             },
             lineStyle: {
-              color: 'rgb(95, 187, 255)'
-            }
+              color: 'rgb(95,187,255)'
+            },
+            itemStyle: {
+              opacity: 0
+            },
+            smooth: true
           }
         ],
         grid: {
           top: 0,
-          right: 0,
+          left: 0,
           bottom: 0,
-          left: 0
+          right: 0
         }
-      },
-      searchNumOption: {
-        xAxis: {
-          type: 'category',
-          boundaryGap: false
-        },
-        yAxis: {
-          show: false,
-          max: 300,
-          min: 0
-        },
-        series: [
-          {
-            type: 'line',
-            data: [100, 150, 200, 250, 200, 150, 100, 50, 100, 150],
-            itemStyle: {
-              opacity: 0,
-              smooth: true
-            },
-            areaStyle: {
-              color: 'rgba(95, 187, 255, 0.5)'
-            },
-            lineStyle: {
-              color: 'rgb(95, 187, 255)'
-            }
-          }
-        ],
-        grid: {
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0
-        }
-      },
-      tableData: [
-        {
-          id: 1,
-          rank: 1,
-          keywords: '北京',
-          count: 100,
-          users: 90,
-          range: '90%'
-        },
-        {
-          id: 2,
-          rank: 2,
-          keywords: '上海',
-          count: 100,
-          users: 90,
-          range: '90%'
-        },
-        {
-          id: 3,
-          rank: 3,
-          keywords: '广州',
-          count: 100,
-          users: 90,
-          range: '90%'
-        },
-        {
-          id: 4,
-          rank: 4,
-          keywords: '深圳',
-          count: 100,
-          users: 90,
-          range: '90%'
-        }
-      ],
-      radioSelect: '品类',
-      categoryOption: {}
-    }
-  },
-  methods: {
-    onPageChange (page) {
-      console.log(page)
+      }
     },
-    initCategoryOption () {
-      const mockData = [
-        {
-          legendname: '粉面粥点',
-          name: '粉面粥点|30%',
-          value: 30,
-          percent: '30',
+    renderTable (page) {
+      this.pageNum = page
+    },
+    renderPieChart () {
+      if (!this.category1.data1 || !this.category2.data1) {
+        return
+      }
+      let data
+      let axis
+      let total = 0
+      if (this.radioSelect === '品类') {
+        data = this.category1.data1.slice(0, 6)
+        axis = this.category1.axisX.slice(0, 6)
+        total = data.reduce((s, i) => s + i, 0)
+      } else {
+        data = this.category2.data1.slice(0, 6)
+        axis = this.category2.axisX.slice(0, 6)
+        total = data.reduce((s, i) => s + i, 0)
+      }
+      const chartData = []
+      data.forEach((item, index) => {
+        const percent = `${((item / total) * 100).toFixed(2)}%`
+        chartData.push({
+          legendname: axis[index],
+          value: item,
+          percent,
           itemStyle: {
-            color: '#5085f2'
-          }
-        },
-        {
-          legendname: '粉面粥点',
-          name: '简餐便当|30%',
-          value: 20,
-          percent: '20',
-          itemStyle: {
-            color: '#e7e702'
-          }
-        },
-        {
-          legendname: '粉面粥点',
-          name: '汉堡披萨|50%',
-          value: 50,
-          percent: '50',
-          itemStyle: {
-            color: '#8d7fec'
-          }
-        }
-      ]
+            color: colors[index]
+          },
+          name: `${axis[index]} | ${percent}`
+        })
+      })
       this.categoryOption = {
         title: [
           {
-            text: '品类分布',
+            text: `${this.radioSelect}分布`,
             textStyle: {
-              color: '#666',
-              fontSize: 14
+              fontSize: 14,
+              color: '#666'
             },
             left: 20,
             top: 20
           },
           {
             text: '累计订单量',
-            textStyle: {
-              color: '#999',
-              fontSize: 14
-            },
-            subtext: '320',
-            subtextStyle: {
-              color: '#333',
-              fontSize: 28
-            },
-            x: '34,5%',
+            subtext: total,
+            x: '34.5%',
             y: '42.5%',
+            textStyle: {
+              fontSize: 14,
+              color: '#999'
+            },
+            subtextStyle: {
+              fontSize: 28,
+              color: '#333'
+            },
             textAlign: 'center'
+          }
+        ],
+        series: [
+          {
+            name: '品类分布',
+            type: 'pie',
+            data: chartData,
+            label: {
+              normal: {
+                show: true,
+                position: 'outter',
+                formatter: function (params) {
+                  return params.data.legendname
+                }
+              }
+            },
+            center: ['35%', '50%'],
+            radius: ['45%', '60%'],
+            labelLine: {
+              normal: {
+                length: 5,
+                length2: 3,
+                smooth: true
+              }
+            },
+            clockwise: false,
+            itemStyle: {
+              borderWidth: 4,
+              borderColor: '#fff'
+            }
           }
         ],
         legend: {
@@ -240,51 +288,30 @@ export default {
           }
         },
         tooltip: {
+          trigger: 'item',
           formatter: function (params) {
-            const {
-              data: { legendname, value, percent },
-              marker
-            } = params
             return (
-              marker +
-              legendname +
-              '<br/>' +
-              `数量: ${value}` +
-              '<br/>' +
-              `占比: ${percent}%`
+              params.seriesName +
+              '<br />' +
+              params.marker +
+              params.data.legendname +
+              '<br />' +
+              '数量：' +
+              params.data.value +
+              '<br />' +
+              '占比：' +
+              params.data.percent +
+              '%'
             )
           }
-        },
-        series: [
-          {
-            type: 'pie',
-            data: mockData,
-            label: {
-              formatter: function (params) {
-                console.log(params)
-                const { name } = params.data
-                return `${name}`
-              }
-            },
-            center: ['35%', '50%'],
-            radius: ['45%', '60%'],
-            labelLine: {
-              length: 5,
-              length2: 3,
-              smooth: true
-            },
-            itemStyle: {
-              // 环形中间空白效果
-              borderWidth: 4,
-              borderColor: '#fff'
-            }
-          }
-        ]
+        }
       }
     }
   },
-  mounted () {
-    this.initCategoryOption()
+  watch: {
+    category1 (nl, ol) {
+      this.renderPieChart()
+    }
   }
 }
 </script>

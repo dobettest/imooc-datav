@@ -1,6 +1,5 @@
 function format (v) {
   const reg = /\d{1,3}(?=(\d{3})+)/g
-  console.log(reg.test(v))
   return `${v}`.replace(reg, '$&,')
 }
 export function wrapperNumber (o, k) {
@@ -33,4 +32,3 @@ export function wrapperOriginalNumber (o, k) {
 export function wrapperPercentage (o, k) {
   return o && o[k] ? `${o[k]}%` : '0%'
 }
-console.log(format('106123123456789'))

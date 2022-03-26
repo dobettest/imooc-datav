@@ -13,12 +13,13 @@ import TopView from '@/components/TopView'
 import SalesView from '@/components/SalesView'
 import BottomView from '@/components/BottomView'
 import MapView from '@/components/MapView'
-import { screenData } from '@/api'
+import { screenData, wordcloud } from '@/api'
 export default {
   name: 'HomeView',
   data () {
     return {
-      screenData: null
+      screenData: null,
+      wordCloud: null
     }
   },
   components: {
@@ -30,17 +31,24 @@ export default {
   methods: {
     getScreenData () {
       return this.screenData
+    },
+    getWordCLoud () {
+      return this.wordCloud
     }
   },
   provide () {
     return {
-      screenData: this.getScreenData
+      screenData: this.getScreenData,
+      wordCloudData: this.getWordCLoud
     }
   },
   mounted () {
     screenData().then((data) => {
       // console.log(data)
       this.screenData = data
+    })
+    wordcloud().then((data) => {
+      this.wordCloud = data
     })
   }
 }

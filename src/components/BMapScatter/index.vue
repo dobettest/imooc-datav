@@ -10,6 +10,7 @@ import 'echarts/extension/bmap/bmap'
 import jsonp from '@/utils/jsonp'
 import { mergeWith } from 'lodash-es'
 import { mapScatter } from '@/api'
+import chartMixin from '@/mixins/chartMixin'
 const convertData = function (data, geo) {
   const res = []
   data.forEach((item) => {
@@ -155,10 +156,10 @@ export default {
             ]
           }
         }
-      },
-      chart: null
+      }
     }
   },
+  mixins: [chartMixin],
   methods: {
     initOptions () {
       mapScatter().then((scatter) => {
@@ -232,11 +233,6 @@ export default {
         chart.setOption(this.options)
         this.chart = chart
       })
-    },
-    resizeHandler () {
-      if (this.chart) {
-        this.chart.resize()
-      }
     }
   },
   async mounted () {
@@ -245,11 +241,6 @@ export default {
       `http://api.map.baidu.com/getscript?v=2.0&ak=Wc62kF8LBWTNT3xOEgGOqE2diqqtPQNy&services=&t=${Date.now()}`
     )
     this.initOptions()
-    window.addEventListener('resize', this.resizeHandler)
-  },
-  destroyed () {
-    window.removeEventListener('resize', this.resizeHandler)
-    this.chart && this.chart.dispose()
   }
 }
 </script>

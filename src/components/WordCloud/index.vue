@@ -7,58 +7,67 @@
 
 <script>
 import 'echarts-wordcloud'
-import { wordcloud } from '@/api'
+import chartMixin from '@/mixins/chartMixin'
 export default {
   name: 'WordCloud',
   data () {
     return {
-      chart: null,
-      options: {}
+      chart: null
+    }
+  },
+  mixins: [chartMixin],
+  inject: ['wordCloudData'],
+  computed: {
+    wordcloud () {
+      return this.wordCloudData()
+    },
+    options () {
+      const { wordcloud } = this
+      const data = Array.isArray(wordcloud)
+        ? wordcloud.map((item) => {
+          return { name: item.word, value: item.count }
+        })
+        : []
+      return {
+        tooltip: {},
+        series: [
+          {
+            type: 'wordCloud',
+            shape: 'circle',
+            textStyle: {
+              color: function () {
+                return (
+                  'rgb(' +
+                  [
+                    Math.round(Math.random() * 160),
+                    Math.round(Math.random() * 160),
+                    Math.round(Math.random() * 160)
+                  ].join(',') +
+                  ')'
+                )
+              }
+            },
+            emphasis: {
+              textStyle: {
+                shadowBlur: 10,
+                shadowColor: '#333'
+              }
+            },
+            data
+          }
+        ]
+      }
+    }
+  },
+  watch: {
+    options (nl, ol) {
+      this.chart.setOption(nl)
     }
   },
   methods: {
     initOptions () {
-      wordcloud().then((data) => {
-        console.log('data', data)
-        data = Array.isArray(data)
-          ? data.map((item) => {
-            return { name: item.word, value: item.count }
-          })
-          : []
-        const chart = this.$echarts.init(this.$refs.chartDom)
-        const options = {
-          tooltip: {},
-          series: [
-            {
-              type: 'wordCloud',
-              shape: 'circle',
-              textStyle: {
-                color: function () {
-                  return (
-                    'rgb(' +
-                    [
-                      Math.round(Math.random() * 160),
-                      Math.round(Math.random() * 160),
-                      Math.round(Math.random() * 160)
-                    ].join(',') +
-                    ')'
-                  )
-                }
-              },
-              emphasis: {
-                textStyle: {
-                  shadowBlur: 10,
-                  shadowColor: '#333'
-                }
-              },
-              data
-            }
-          ]
-        }
-        chart.setOption(options)
-        this.chart = chart
-        this.options = options
-      })
+      const chart = this.$echarts.init(this.$refs.chartDom)
+      this.chart = chart
     }
   },
   mounted () {
