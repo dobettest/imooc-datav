@@ -1,6 +1,9 @@
 <template>
   <div class="sales-view">
-    <el-card shadow="hover" :body-style="{ padding: '0 0 20px 0' }">
+    <el-card
+      shadow="hover"
+      :body-style="{ padding: '0 0 20px 0' }"
+    >
       <template v-slot:header>
         <div class="menu-wrapper">
           <el-menu
@@ -9,11 +12,14 @@
             class="sales-view-menu"
             @select="onSelect"
           >
-            <el-menu-item index="saleNum">销售额</el-menu-item>
-            <el-menu-item index="visitNum">访问量</el-menu-item>
+            <el-menu-item index="1">销售额</el-menu-item>
+            <el-menu-item index="2">访问量</el-menu-item>
           </el-menu>
           <div class="menu-right">
-            <el-radio-group v-model="radioValue" size="small">
+            <el-radio-group
+              v-model="radioValue"
+              size="small"
+            >
               <el-radio-button label="今日"></el-radio-button>
               <el-radio-button label="本周"></el-radio-button>
               <el-radio-button label="本月"></el-radio-button>
@@ -39,8 +45,15 @@
           <div class="sales-view-list">
             <div class="sales-view-title">排行榜</div>
             <div class="list-item-wrapper">
-              <div class="list-item" v-for="item in rankData" :key="item.no">
-                <div class="list-item-no" :class="{ 'top-no': item.no <= 3 }">
+              <div
+                class="list-item"
+                v-for="item in rankData"
+                :key="item.no"
+              >
+                <div
+                  class="list-item-no"
+                  :class="{ 'top-no': item.no <= 3 }"
+                >
                   {{ item.no }}
                 </div>
                 <div class="list-item-name">{{ item.name }}</div>
@@ -55,11 +68,12 @@
 </template>
 
 <script>
+import { wrapperArray } from '@/utils/wrapper'
 export default {
   name: 'SalesView',
   data () {
     return {
-      activeIndex: 'saleNum',
+      activeIndex: '1',
       radioValue: '今日',
       date: null,
       pickerOptions: {
@@ -93,9 +107,51 @@ export default {
           }
         ]
       },
-      chartOption: {
+      chartOption: {}
+    }
+  },
+  inject: ['screenData'],
+  computed: {
+    reportData () {
+      return this.screenData()
+    },
+    orderFullYear () {
+      return wrapperArray(this.reportData, 'orderFullYear')
+    },
+    orderFullYearAxis () {
+      return wrapperArray(this.reportData, 'orderFullYearAxis')
+    },
+    orderRank () {
+      return wrapperArray(this.reportData, 'orderRank')
+    },
+    userRank () {
+      return wrapperArray(this.reportData, 'userRank')
+    },
+    rankData () {
+      return this.activeIndex === '1' ? this.orderRank : this.userRank
+    },
+    userFullYear () {
+      return wrapperArray(this.reportData, 'userFullYear')
+    }
+  },
+  watch: {
+    orderFullYear () {
+      this.render(this.orderFullYear, this.orderFullYearAxis, '年度销售额')
+    }
+  },
+  methods: {
+    onSelect (index) {
+      this.activeIndex = index
+      if (index === '1') {
+        this.render(this.orderFullYear, this.orderFullYearAxis, '年度销售额')
+      } else {
+        this.render(this.userFullYear, this.userFullYearAxis, '年度用户访问量')
+      }
+    },
+    render (data, axis, title) {
+      this.chartOption = {
         title: {
-          text: '年度销售榜',
+          text: title,
           textStyle: {
             fontSize: 12,
             color: '#666'
@@ -105,22 +161,9 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: [
-            '一月',
-            '二月',
-            '三月',
-            '四月',
-            '五月',
-            '六月',
-            '七月',
-            '八月',
-            '九月',
-            '十月',
-            '十一月',
-            '十二月'
-          ],
+          data: axis,
           axisTick: {
-            alignWithLable: true,
+            alignWithLabel: true,
             lineStyle: {
               color: '#999'
             }
@@ -130,7 +173,7 @@ export default {
               color: '#999'
             }
           },
-          axisLable: {
+          axisLabel: {
             color: '#333'
           }
         },
@@ -152,61 +195,17 @@ export default {
           {
             type: 'bar',
             barWidth: '35%',
-            data: [200, 250, 300, 350, 300, 250, 200, 250, 300, 350, 300, 250],
-            itemStyle: {
-              color: '#3398d8'
-            }
+            data
           }
         ],
+        color: ['#3398DB'],
         grid: {
           top: 70,
+          left: 60,
           right: 60,
-          bottom: 50,
-          left: 60
+          bottom: 50
         }
-      },
-      rankData: [
-        {
-          no: 1,
-          name: '肯德基',
-          money: '323,234'
-        },
-        {
-          no: 2,
-          name: '麦当劳',
-          money: '323,234'
-        },
-        {
-          no: 3,
-          name: '肯德基',
-          money: '323,234'
-        },
-        {
-          no: 4,
-          name: '肯德基',
-          money: '323,234'
-        },
-        {
-          no: 5,
-          name: '肯德基',
-          money: '323,234'
-        },
-        {
-          no: 6,
-          name: '肯德基',
-          money: '323,234'
-        },
-        {
-          no: 7,
-          name: '肯德基',
-          money: '323,234'
-        }
-      ]
-    }
-  },
-  methods: {
-    onSelect (index) {
-      this.activeIndex = index
+      }
     }
   }
 }
