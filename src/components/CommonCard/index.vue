@@ -17,7 +17,7 @@ export default {
   name: 'CommonCard',
   props: {
     title: String,
-    value: String
+    value: [Number, String]
   }
 }
 </script>

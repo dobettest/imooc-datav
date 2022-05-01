@@ -1,17 +1,14 @@
 <template>
-  <common-card
-    title="累计用户数"
-    :value="userToday"
-  >
+  <common-card title="累计用户数" :value="userToday">
     <template>
-      <v-chart :option="initOption()"></v-chart>
+      <div ref="chartDom" style="height: 100%"></div>
     </template>
     <template v-slot:footer>
       <div class="total-users-footer">
         <span>日同比</span>
-        <span class="emphasis increase">{{userGrowthLastDay}}</span>
+        <span class="emphasis increase">{{ userGrowthLastDay }}</span>
         <span class="month">月同比</span>
-        <span class="emphasis decrease">{{userGrowthLastMonth}}</span>
+        <span class="emphasis decrease">{{ userGrowthLastMonth }}</span>
       </div>
     </template>
   </common-card>
@@ -20,11 +17,25 @@
 <script>
 import commonCardMixin from '@/mixins/commonCardMixin'
 import { wrapperNumber } from '@/utils/wrapper'
+import echarts from 'echarts-v4'
+import chartMixin from '@/mixins/chartMixin'
 export default {
   name: 'TotalUsers',
-  mixins: [commonCardMixin],
+  mixins: [commonCardMixin, chartMixin],
   inject: ['screenData'],
-  methods: {
+  computed: {
+    reportData () {
+      return this.screenData()
+    },
+    userToday () {
+      return wrapperNumber(this.reportData, 'userToday')
+    },
+    userGrowthLastDay () {
+      return wrapperNumber(this.reportData, 'userGrowthLastDay')
+    },
+    userGrowthLastMonth () {
+      return wrapperNumber(this.reportData, 'userGrowthLastMonth')
+    },
     initOption () {
       return {
         xAxis: {
@@ -110,19 +121,19 @@ export default {
       }
     }
   },
-  computed: {
-    reportData () {
-      return this.screenData()
-    },
-    userToday () {
-      return wrapperNumber(this.reportData, 'userToday')
-    },
-    userGrowthLastDay () {
-      return wrapperNumber(this.reportData, 'userGrowthLastDay')
-    },
-    userGrowthLastMonth () {
-      return wrapperNumber(this.reportData, 'userGrowthLastMonth')
+  watch: {
+    initOption: {
+      handler (nl, ol) {
+        console.log(this.chart, nl)
+        if (this.chart) {
+          this.chart.setOption(nl)
+        }
+      },
+      deep: true
     }
+  },
+  mounted () {
+    this.chart = echarts.init(this.$refs.chartDom)
   }
 }
 </script>
