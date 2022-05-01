@@ -74,7 +74,7 @@ export default {
   async mounted () {
     await jsonp(
       'bmap',
-      `http://api.map.baidu.com/getscript?v=2.0&ak=Wc62kF8LBWTNT3xOEgGOqE2diqqtPQNy&services=&t=${Date.now()}`
+      `${location.protocol}//api.map.baidu.com/getscript?v=2.0&ak=Wc62kF8LBWTNT3xOEgGOqE2diqqtPQNy&services=&t=${Date.now()}`
     )
     this.initOptions()
     window.addEventListener('resize', this.resizeHandler)
