@@ -1,21 +1,21 @@
 export default {
-  data () {
+  data() {
     return {
-      chart: null
-    }
+      chart: null,
+    };
   },
   methods: {
-    resizeHandler () {
+    resizeHandler() {
       if (this.chart) {
-        this.chart.resize()
+        this.chart.resize();
       }
-    }
+    },
   },
-  mounted () {
-    window.addEventListener('resize', this.resizeHandler)
+  mounted() {
+    window.addEventListener('resize', this.resizeHandler);
   },
-  destroyed () {
-    window.removeEventListener('resize', this.resizeHandler)
-    this.chart && this.chart.dispose()
-  }
-}
+  destroyed() {
+    window.removeEventListener('resize', this.resizeHandler);
+    this.chart && this.chart.dispose();
+  },
+};

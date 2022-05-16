@@ -1,23 +1,22 @@
-export default function jsonp (moduleId, src, callback) {
+export default function jsonp(moduleId, src, callback) {
   return new Promise(function (resolve, reject) {
-    const dom = document.getElementById(moduleId)
+    const dom = document.getElementById(moduleId);
     if (dom) {
-      resolve()
+      resolve();
     } else {
-      const script = document.createElement('script')
-      script.src = src
-      script.id = moduleId
-      document.head.appendChild(script)
+      const script = document.createElement('script');
+      script.src = src;
+      script.id = moduleId;
+      document.head.appendChild(script);
       script.onload = function () {
         if (Object.prototype.toString.call(callback) === '[object Function]') {
-          callback()
+          callback();
         }
-        console.log('test')
-        resolve()
-      }
+        resolve();
+      };
       script.onerror = function () {
-        reject(new Error('异步请求失败'))
-      }
+        reject(new Error('异步请求失败'));
+      };
     }
-  })
+  });
 }

@@ -1,22 +1,22 @@
-import request from '../utils/request'
+import request from '../utils/request';
 
-export function wordcloud () {
+export function wordcloud() {
   return request({
     url: '/screen/wordcloud',
-    method: 'get'
-  })
+    method: 'get',
+  });
 }
 
-export function mapScatter () {
+export function mapScatter() {
   return request({
     url: '/screen/map/scatter',
-    method: 'get'
-  })
+    method: 'get',
+  });
 }
 
-export function screenData () {
+export function screenData() {
   return request({
     url: '/screen/data',
-    method: 'get'
-  })
+    method: 'get',
+  });
 }
