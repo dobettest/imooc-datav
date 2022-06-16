@@ -9,13 +9,21 @@ import request from "./utils/request";
 import "core-js";
 import { BrowserTracing } from "@sentry/tracing";
 import * as Sentry from "@sentry/vue";
+Vue.config.productionTip = false;
+Vue.prototype.$echarts = echarts;
+Vue.prototype.$request = request;
+Vue.component("VChart", VueEcharts);
 Sentry.init({
   Vue,
   dsn: "https://ddbdd9c63f8f499b8ef11fc7725d4378@o1265551.ingest.sentry.io/6449812",
   integrations: [
     new BrowserTracing({
       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-      tracingOrigins: ["localhost", "my-site-url.com", /^\//],
+      tracingOrigins: [
+        "localhost",
+        "https://imooc-datav-3gfkzland369150d-1257758405.ap-shanghai.app.tcloudbase.com/",
+        /^\//,
+      ],
     }),
   ],
   // Set tracesSampleRate to 1.0 to capture 100%
@@ -23,10 +31,6 @@ Sentry.init({
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
 });
-Vue.config.productionTip = false;
-Vue.prototype.$echarts = echarts;
-Vue.prototype.$request = request;
-Vue.component("VChart", VueEcharts);
 export default new Vue({
   router,
   render: (h) => h(App),
