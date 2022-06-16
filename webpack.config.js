@@ -9,7 +9,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     mode: 'production',
-    devtool: "hidden-source-map",
+    devtool: "source-map",
     entry: {
         'app': './src/main.js'
     },
