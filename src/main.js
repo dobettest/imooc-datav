@@ -14,6 +14,8 @@ Vue.prototype.$echarts = echarts;
 Vue.prototype.$request = request;
 Vue.component("VChart", VueEcharts);
 Sentry.init({
+  environment: "production",
+  release: "imooc-datav@0.1.0",
   Vue,
   dsn: "https://ddbdd9c63f8f499b8ef11fc7725d4378@o1265551.ingest.sentry.io/6449812",
   integrations: [

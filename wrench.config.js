@@ -1,8 +1,8 @@
 module.exports = {
-    envs:(config)=>{
-        config.less=true;
-        config.scss=true;
-        config.typescript=false;
+    envs: (config) => {
+        config.less = true;
+        config.scss = true;
+        config.typescript = false;
         return config;
     },
     entry: (config) => {
