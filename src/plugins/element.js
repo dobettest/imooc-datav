@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from "vue";
 import {
   Button,
   Card,
@@ -12,7 +12,7 @@ import {
   Table,
   TableColumn,
   Pagination,
-} from 'element-ui';
+} from "element-ui";
 const arr = [
   Button,
   Card,

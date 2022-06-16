@@ -16,6 +16,7 @@ export default {
 
 <style>
 html,body,#app{
+  display: flex;
   width: 100%;
   height: 100%;
   margin: 0;

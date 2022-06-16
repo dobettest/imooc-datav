@@ -1,5 +1,10 @@
 module.exports = {
-    type: "vue2",
+    envs:(config)=>{
+        config.less=true;
+        config.scss=true;
+        config.typescript=false;
+        return config;
+    },
     entry: (config) => {
         config.app = ["./src/main.js"];
         return config;

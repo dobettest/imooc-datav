@@ -17,7 +17,10 @@
 <script>
 import commonCardMixin from '@/mixins/commonCardMixin'
 import { wrapperNumber } from '@/utils/wrapper'
-import echarts from 'echarts-v4'
+import echarts from 'echarts-v4/lib/echarts';
+import 'echarts-v4/lib/echarts'
+import 'echarts-v4/lib/chart/bar';
+import 'echarts-v4/lib/chart/custom';
 import chartMixin from '@/mixins/chartMixin'
 export default {
   name: 'TotalUsers',

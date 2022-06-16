@@ -12,10 +12,10 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener('resize', this.resizeHandler);
+    window.addEventListener("resize", this.resizeHandler);
   },
   destroyed() {
-    window.removeEventListener('resize', this.resizeHandler);
+    window.removeEventListener("resize", this.resizeHandler);
     this.chart && this.chart.dispose();
   },
 };
