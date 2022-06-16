@@ -1,13 +1,13 @@
 function format(v) {
   const reg = /\d{1,3}(?=(\d{3})+)/g;
-  return `${v}`.replace(reg, '$&,');
+  return `${v}`.replace(reg, "$&,");
 }
 export function wrapperNumber(o, k) {
   return o && o[k] ? format(o[k]) : 0;
 }
 export function wrapperObject(o, k) {
-  if (o && k.indexOf('.') >= 0) {
-    const keys = k.split('.');
+  if (o && k.indexOf(".") >= 0) {
+    const keys = k.split(".");
     keys.forEach((key) => {
       o = o[key];
     });
@@ -22,7 +22,7 @@ export function wrapperArray(o, k) {
 }
 
 export function wrapperMoney(o, k) {
-  return o && o[k] ? `¥ ${format(o[k])}` : '¥ 0.00';
+  return o && o[k] ? `¥ ${format(o[k])}` : "¥ 0.00";
 }
 
 export function wrapperOriginalNumber(o, k) {
@@ -30,5 +30,5 @@ export function wrapperOriginalNumber(o, k) {
 }
 
 export function wrapperPercentage(o, k) {
-  return o && o[k] ? `${o[k]}%` : '0%';
+  return o && o[k] ? `${o[k]}%` : "0%";
 }
