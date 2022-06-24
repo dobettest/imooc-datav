@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin')
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 // const { ProgressPlugin } = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -18,6 +18,10 @@ module.exports = {
             '@': path.join(__dirname, "./src")
         },
         extensions: ['.mjs', '.js', '.vue']
+    },
+    output:{
+        filename:'js/[name].[contenthash:12].js',
+        clean: true,// 在生成文件之前清空 output 目录
     },
     optimization: {
         minimize: true,
@@ -92,15 +96,15 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            chunkFilename: '[name].[contenthash:8].css',
-            filename: '[name].[contenthash:8].css'
+            chunkFilename: 'css/[name].[contenthash:8].css',
+            filename: 'css/[name].[contenthash:8].css'
         }),
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             template: './public/index.html',
             filename: 'index.html'
         }),
-        // new BundleAnalyzerPlugin(),
+        new BundleAnalyzerPlugin(),
         // new ProgressPlugin(),
         new CopyPlugin({
             "patterns": [

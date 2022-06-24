@@ -3,6 +3,8 @@ module.exports = {
         config.less = true;
         config.scss = true;
         config.typescript = false;
+        config.analyze = false;
+        config.publicPath = "https://cdn.dobettest.cn";
         return config;
     },
     entry: (config) => {
@@ -21,6 +23,14 @@ module.exports = {
                 styleLibraryName: 'theme-chalk'
             }
         ])
+        return config;
+    },
+    build: (config) => {
+        config.optimization.splitChunks.cacheGroups['commonUI'] = {
+            test: /([\\/])node_modules([\\/])element-ui([\\/])/,
+            priority: -5,
+            name: 'elementUI'
+        }
         return config;
     }
 }
