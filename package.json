@@ -30,7 +30,7 @@
     "@babel/plugin-transform-runtime": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.17.12",
-    "@dobettest/scaffold": "^0.1.6",
+    "@dobettest/scaffold": "^0.1.7",
     "@types/webpack-env": "^1.17.0",
     "autoprefixer": "^10.4.7",
     "axios": "^0.26.1",
