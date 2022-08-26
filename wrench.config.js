@@ -1,11 +1,6 @@
 module.exports = {
     envs: (config) => {
-        config.less = true;
-        config.scss = true;
-        config.typescript = false;
-        config.analyze = false;
-        config.publicPath = "https://cdn.dobettest.cn";
-        return config;
+        return { ...config,vue:true, less: true, scss: true, typescript: true, analyze: true, aegis: true };
     },
     entry: (config) => {
         config.app = ["./src/main.js"];
@@ -27,7 +22,7 @@ module.exports = {
     },
     aegisOptions: () => {
         return {
-            entry: "./src/main.ts",
+            entry: "./src/main.js",
             id: 'ZEn7bsvP6v1GRLXrEo', // 上报 id
             // uin: 'xxx', // 用户唯一 ID（可选）
             reportApiSpeed: true, // 接口测速
@@ -36,6 +31,7 @@ module.exports = {
         };
     },
     build: (config) => {
+        // config.output.publicPath = "https://cdn.dobettest.cn";
         config.optimization.splitChunks.cacheGroups['commonUI'] = {
             test: /([\\/])node_modules([\\/])element-ui([\\/])/,
             priority: -5,

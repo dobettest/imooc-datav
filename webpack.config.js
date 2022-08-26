@@ -9,7 +9,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     mode: 'production',
-    devtool: "source-map",
+    devtool: "hidden-source-map",
     entry: {
         'app': './src/main.js'
     },
@@ -19,8 +19,8 @@ module.exports = {
         },
         extensions: ['.mjs', '.js', '.vue']
     },
-    output:{
-        filename:'js/[name].[contenthash:12].js',
+    output: {
+        filename: 'js/[name].[contenthash:12].js',
         clean: true,// 在生成文件之前清空 output 目录
     },
     optimization: {
@@ -72,9 +72,36 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                // exclude:/node_modules/,
-                use: ['thread-loader', 'babel-loader']
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: [
+                    'thread-loader',
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            "presets": [
+                                [
+                                    "@babel/preset-env",
+                                    {
+                                        "loose": false,
+                                        "corejs": 3,
+                                        "useBuiltIns": "entry",
+                                        "modules": false
+                                    }
+                                ]
+                            ],
+                            "plugins": [
+                                "@babel/plugin-transform-runtime",
+                                [
+                                    "component",
+                                    {
+                                        "libraryName": "element-ui",
+                                        "styleLibraryName": "theme-chalk"
+                                    }
+                                ]
+                            ]
+                        }
+                    }]
             },
             {
                 test: /\.css$/,
