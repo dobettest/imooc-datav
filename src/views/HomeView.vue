@@ -1,18 +1,51 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <top-view />
+    <sales-view />
+    <bottom-view />
+    <map-view />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
-
+// @ is an alias to /src
+import { defineComponent, provide, ref } from 'vue'
+import TopView from '@/components/TopView/index.vue'
+import SalesView from '@/components/SalesView/index.vue'
+import BottomView from '@/components/BottomView/index.vue'
+import MapView from '@/components/MapView/index.vue'
+import { getScreenData, getWordcloud } from '@/api'
+import useCancelRequest from '@/hooks/useCancelRequest'
 export default defineComponent({
   name: 'HomeView',
   components: {
-    HelloWorld
-  }
+    TopView,
+    SalesView,
+    BottomView,
+    MapView,
+  },
+  setup() {
+    const screenData = ref(null);
+    const wordCloud = ref([]);
+    provide('wordCloudData', wordCloud);
+    provide('screenData', screenData);
+    const { request: requestScreenData } = useCancelRequest()
+    requestScreenData(getScreenData)?.then((data: any) => {
+      screenData.value = data;
+    })
+    getWordcloud().then((data: any) => {
+      wordCloud.value = data
+    })
+  },
 })
 </script>
+
+<style>
+.home {
+  height: 100%;
+  overflow: auto;
+  background-color: #eee;
+  padding: 20px;
+  box-sizing: border-box;
+}
+</style>
