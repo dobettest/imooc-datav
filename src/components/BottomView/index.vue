@@ -103,8 +103,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, computed, ref, watch, Ref } from 'vue'
-import { wrapperObject } from '@/utils/wrapper'
+import { defineComponent, inject, computed, ref, watch, type Ref } from 'vue';
+import { wrapperObject } from '@/utils/wrapper';
 import useChart from '@/hooks/useChart';
 const colors = [
   '#8d7fec',
@@ -113,7 +113,7 @@ const colors = [
   '#e7e702',
   '#78f283',
   '#4bc1fc',
-]
+];
 export default defineComponent({
   name: 'BottomView',
   setup() {
@@ -122,7 +122,7 @@ export default defineComponent({
     const pageNum = ref(1);
     const wordCloudData = inject<Ref>('wordCloudData');
     const screenData = inject<Ref>('screenData');
-    const category = computed(() => wrapperObject(screenData?.value, radioSelect.value))
+    const category = computed(() => wrapperObject(screenData?.value, radioSelect.value));
     const totalData = computed(() => wordCloudData?.value?.map((item: any, index: number) => {
       return {
         id: index + 1,
@@ -131,15 +131,15 @@ export default defineComponent({
         count: item.count,
         users: item.user,
         range: `${((item.user / item.count) * 100).toFixed(2)}%`,
-      }
-    }))
+      };
+    }));
     const tableData = computed(() => totalData.value?.slice(
       (pageNum.value - 1) * pageSize.value,
       pageNum.value * pageSize.value
     ));
     const renderTable = (page: number) => pageNum.value = page;
     const onCategoryChange = (type: string) => {
-      radioSelect.value = type
+      radioSelect.value = type;
     };
     const createOption = (key: string) => {
       const { data, axis } = wordCloudData?.value?.reduce(
@@ -147,10 +147,10 @@ export default defineComponent({
           return {
             data: data.concat(item[key]),
             axis: axis.concat(item[key]),
-          }
+          };
         },
         { data: [], axis: [] }
-      )
+      );
       return {
         xAxis: {
           type: 'category',
@@ -182,7 +182,7 @@ export default defineComponent({
           bottom: 0,
           right: 0,
         },
-      }
+      };
     };
     const searchUserOption = computed(() => createOption('user'));
     const { chart: searchUserChart, setOption: renderUserChart } = useChart();
@@ -193,16 +193,16 @@ export default defineComponent({
     const { chart: categoryChart, setOption: renderCategory } = useChart();
     const categoryOption = computed(() => {
       if (!category.value.data1) {
-        return
+        return;
       }
       let data;
       let axis: any = [];
-      let total = 0
-      data = category.value.data1.slice(0, 6)
-      axis = category.value.axisX.slice(0, 6)
-      total = data.reduce((s: number, i: number) => s + i)
+      let total = 0;
+      data = category.value.data1.slice(0, 6);
+      axis = category.value.axisX.slice(0, 6);
+      total = data.reduce((s: number, i: number) => s + i);
       const chartData = data.map((item: any, index: number) => {
-        const percent = `${((item / total) * 100).toFixed(2)}%`
+        const percent = `${((item / total) * 100).toFixed(2)}%`;
         return {
           legendname: axis[index],
           value: item,
@@ -211,8 +211,8 @@ export default defineComponent({
             color: colors[index],
           },
           name: `${axis[index]} | ${percent}`,
-        }
-      })
+        };
+      });
       const text = radioSelect.value === 'category.data1' ? '品类' : '商品';
       return {
         title: [
@@ -251,7 +251,7 @@ export default defineComponent({
                 show: true,
                 position: 'outter',
                 formatter: function (params: any) {
-                  return params.data.legendname
+                  return params.data.legendname;
                 },
               },
             },
@@ -296,12 +296,12 @@ export default defineComponent({
               '占比：' +
               params.data.percent +
               '%'
-            )
+            );
           },
         },
-      }
+      };
     });
-    watch(categoryOption, renderCategory)
+    watch(categoryOption, renderCategory);
     return {
       renderTable,
       radioSelect,
@@ -311,9 +311,9 @@ export default defineComponent({
       searchUserChart,
       searchNumChart,
       categoryChart
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

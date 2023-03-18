@@ -4,5 +4,5 @@
  */
 export const randomColor = ():string => {
   const random = Math.round(Math.random() * 160);
-  return `rgb(${random},${random}${random})`
-}
+  return `rgb(${random},${random}${random})`;
+};

@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, computed, watch, Ref } from 'vue'
+import { defineComponent, inject, computed, watch, type Ref } from 'vue';
 import { wrapperNumber } from '@/utils/wrapper';
 import useChart from '@/hooks/useChart';
-import CommonCard from '@/components/CommonCard/index.vue'
+import CommonCard from '@/components/CommonCard/index.vue';
 const options = {
   xAxis: {
     type: 'category',
@@ -53,23 +53,23 @@ const options = {
     bottom: 0,
     right: 0,
   },
-}
+};
 export default defineComponent({
   name: 'TotalOrders',
   components:{CommonCard},
   setup() {
     const screenData = inject<Ref>('screenData');
-    const orderToday = computed(() => wrapperNumber(screenData?.value, 'orderToday'))
-    const orderLastDay = computed(() => wrapperNumber(screenData?.value, 'orderLastDay'))
+    const orderToday = computed(() => wrapperNumber(screenData?.value, 'orderToday'));
+    const orderLastDay = computed(() => wrapperNumber(screenData?.value, 'orderLastDay'));
     const { chart, setOption } = useChart();
     watch(chart, () => setOption(options));
     return {
       chart,
       orderToday,
       orderLastDay
-    }
+    };
   },
-})
+});
 </script>
 
 <style lang="scss">

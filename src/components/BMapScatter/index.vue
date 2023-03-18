@@ -6,20 +6,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, computed, onMounted } from 'vue'
-import { getMapScatter } from '@/api'
+import { defineComponent, ref, watch, computed, onMounted } from 'vue';
+import { getMapScatter } from '@/api';
 import useChart from '@/hooks/useChart';
 import useBMap from '@/hooks/useBMap';
 const convertData = function (data: any[], geo: any) {
   return data.map((item: any) => {
     const { name, value } = item;
-    const coord = geo[name]
+    const coord = geo[name];
     return {
       name,
       value: [...coord, value],
-    }
-  })
-}
+    };
+  });
+};
 export default defineComponent({
   name: 'BMapScatter',
   setup() {
@@ -29,9 +29,9 @@ export default defineComponent({
     const { chart, setOption } = useChart();
     const init = async () => {
       await requestMap(ak);
-      scatter.value = await getMapScatter()
-    }
-    onMounted(init)
+      scatter.value = await getMapScatter();
+    };
+    onMounted(init);
     const options = computed(() => {
       if (!scatter.value) {
         return;
@@ -179,13 +179,13 @@ export default defineComponent({
               color: 'purple',
             },
             symbolSize: function (val: any[]) {
-              return val[2] / 10
+              return val[2] / 10;
             },
             label: {
               show: false,
               position: 'right',
               formatter: function (v: any) {
-                return `${v.data.name} - ${v.data.value[2]}`
+                return `${v.data.name} - ${v.data.value[2]}`;
               },
             },
             emphasis: {
@@ -200,19 +200,19 @@ export default defineComponent({
             coordinateSystem: 'bmap',
             data: convertData(
               data.sort(function (a: any, b: any) {
-                return b.value - a.value
+                return b.value - a.value;
               }),
               geo
             ).slice(0, 10),
             symbolSize: function (val: any[]) {
-              return val[2] / 10
+              return val[2] / 10;
             },
             encode: {
               value: 2,
             },
             label: {
               formatter: function (v: any) {
-                return `${v.data.name} - ${v.data.value[2]}`
+                return `${v.data.name} - ${v.data.value[2]}`;
               },
               position: 'right',
               color: 'purple',
@@ -229,14 +229,14 @@ export default defineComponent({
             },
           },
         ]
-      }
-    })
+      };
+    });
     watch([options, isReady, chart], () => {
       if (options.value && isReady.value) {
-        setOption(options.value)
+        setOption(options.value);
       }
-    })
-    return { chart }
+    });
+    return { chart };
   }
-})
+});
 </script>

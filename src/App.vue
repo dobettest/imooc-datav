@@ -9,7 +9,7 @@ import HomeView from './views/HomeView.vue';
 export default defineComponent({
   name: 'App',
   components: { HomeView }
-})
+});
 </script>
 <style lang="scss">
 html,body{

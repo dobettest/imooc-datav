@@ -1,19 +1,31 @@
 module.exports = {
   root: true,
   env: {
+    browser: true,
     node: true
   },
   extends: [
-    'plugin:vue/recommended'
+    'eslint:recommended',
+    'plugin:vue/recommended',
+    'plugin:import/recommended'
   ],
-  plugins:['@typescript-eslint'],
   parserOptions: {
-    parser:"@typescript-eslint/parser",
-    ecmaVersion: 2020
+    parser: "@typescript-eslint/parser",
+    ecmaVersion: 2020,
+    sourceType:'module'
   },
   rules: {
+    'semi': 'error',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+  },
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [['@', './src']],
+        extensions: ['.vue', '.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
+      }
+    }
   },
   overrides: [
     {
@@ -26,4 +38,4 @@ module.exports = {
       }
     }
   ]
-}
+};

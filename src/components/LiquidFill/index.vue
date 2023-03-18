@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue'
-import 'echarts-liquidfill'
+import { defineComponent, watch } from 'vue';
+import 'echarts-liquidfill';
 import useChart from '@/hooks/useChart';
 export default defineComponent({
   name: 'LiquidFill',
@@ -20,7 +20,7 @@ export default defineComponent({
           data: [0.6],
           label: {
             formatter: (v: any) => {
-              return `${(v.data * 100).toFixed(2)}%`
+              return `${(v.data * 100).toFixed(2)}%`;
             },
             textStyle: {
               fontSize: 36,
@@ -51,16 +51,16 @@ export default defineComponent({
           color: ['purple'],
         },
       ]
-    }
+    };
     const { chart, setOption } = useChart();
     watch(chart, () => {
       if (chart.value) {
-        setOption(options)
+        setOption(options);
       }
     });
     return {
       chart
-    }
+    };
   }
-})
+});
 </script>

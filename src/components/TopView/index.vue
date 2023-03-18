@@ -26,13 +26,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import TotalSales from '@/components/TotalSales/index.vue'
-import TotalOrders from '@/components/TotalOrders/index.vue'
-import TodayUsers from '@/components/TodayUsers/index.vue'
-import TotalUsers from '@/components/TotalUsers/index.vue'
+import { defineComponent } from 'vue';
+import TotalSales from '@/components/TotalSales/index.vue';
+import TotalOrders from '@/components/TotalOrders/index.vue';
+import TodayUsers from '@/components/TodayUsers/index.vue';
+import TotalUsers from '@/components/TotalUsers/index.vue';
 export default defineComponent({
   name: 'TopView',
   components: { TotalSales, TodayUsers, TotalOrders, TotalUsers },
-})
+});
 </script>

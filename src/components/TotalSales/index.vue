@@ -23,21 +23,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject, Ref } from 'vue'
-import { wrapperMoney, wrapperPercentage } from '@/utils/wrapper'
-import CommonCard from '@/components/CommonCard/index.vue'
+import { defineComponent, computed, inject, type Ref } from 'vue';
+import { wrapperMoney, wrapperPercentage } from '@/utils/wrapper';
+import CommonCard from '@/components/CommonCard/index.vue';
 export default defineComponent({
   name: 'TotalSales',
   components: {CommonCard},
   setup() {
     const screenData = inject<Ref>('screenData');
-    const salesGrowthLastDay = computed(() => wrapperPercentage(screenData?.value, 'salesGrowthLastDay'))
-    const salesGrowthLastMonth = computed(() => wrapperPercentage(screenData?.value, 'salesGrowthLastMonth'))
-    const salesLastDay = computed(() => wrapperMoney(screenData?.value, 'salesLastDay'))
-    const salesToday = computed(() => wrapperMoney(screenData?.value, 'salesToday'))
-    return { salesGrowthLastDay, salesGrowthLastMonth, salesLastDay, salesToday }
+    const salesGrowthLastDay = computed(() => wrapperPercentage(screenData?.value, 'salesGrowthLastDay'));
+    const salesGrowthLastMonth = computed(() => wrapperPercentage(screenData?.value, 'salesGrowthLastMonth'));
+    const salesLastDay = computed(() => wrapperMoney(screenData?.value, 'salesLastDay'));
+    const salesToday = computed(() => wrapperMoney(screenData?.value, 'salesToday'));
+    return { salesGrowthLastDay, salesGrowthLastMonth, salesLastDay, salesToday };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

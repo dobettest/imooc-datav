@@ -9,4 +9,4 @@ export default defineConfig({
     },
     extensions: ['.vue', '.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
   }
-})
+});

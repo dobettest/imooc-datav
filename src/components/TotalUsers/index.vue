@@ -19,18 +19,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, computed, Ref, watch } from 'vue'
+import { defineComponent, inject, computed, type Ref, watch } from 'vue';
 import { wrapperNumber } from '@/utils/wrapper';
 import useChart from '@/hooks/useChart';
-import CommonCard from '@/components/CommonCard/index.vue'
+import CommonCard from '@/components/CommonCard/index.vue';
 export default defineComponent({
   name: 'TotalUsers',
   components: { CommonCard },
   setup() {
     const screenData = inject<Ref>('screenData');
-    const userToday = computed(() => wrapperNumber(screenData?.value, 'userToday'))
-    const userGrowthLastDay = computed(() => wrapperNumber(screenData?.value, 'userGrowthLastDay') as number)
-    const userGrowthLastMonth = computed(() => wrapperNumber(screenData?.value, 'userGrowthLastMonth') as number)
+    const userToday = computed(() => wrapperNumber(screenData?.value, 'userToday'));
+    const userGrowthLastDay = computed(() => wrapperNumber(screenData?.value, 'userGrowthLastDay') as number);
+    const userGrowthLastMonth = computed(() => wrapperNumber(screenData?.value, 'userGrowthLastMonth') as number);
     const { chart, setOption } = useChart();
     const options = computed(() => {
       return {
@@ -67,8 +67,8 @@ export default defineComponent({
             type: 'custom',
             data: [userGrowthLastDay.value],
             renderItem: function (_params: any, api: any) {
-              const value = api.value(0)
-              const endPoint = api.coord([value, 0])
+              const value = api.value(0);
+              const endPoint = api.coord([value, 0]);
               return {
                 type: 'group',
                 position: endPoint,
@@ -102,7 +102,7 @@ export default defineComponent({
                     },
                   },
                 ],
-              }
+              };
             },
           },
         ],
@@ -112,17 +112,17 @@ export default defineComponent({
           bottom: 0,
           left: 0,
         },
-      }
-    })
-    watch(options, setOption)
+      };
+    });
+    watch(options, setOption);
     return {
       chart,
       userToday,
       userGrowthLastDay,
       userGrowthLastMonth
-    }
+    };
   },
-})
+});
 </script>
 
 <style lang="scss" scoped>

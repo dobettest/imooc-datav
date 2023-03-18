@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue'
-import CommonCard from '@/components/CommonCard/index.vue'
+import { defineComponent, watch } from 'vue';
+import CommonCard from '@/components/CommonCard/index.vue';
 import useChart from '@/hooks/useChart';
 const chartOption = {
   xAxis: {
@@ -57,16 +57,16 @@ const chartOption = {
     right: 0,
     bottom: 0,
   },
-}
+};
 export default defineComponent({
   name: 'TodayUsers',
   components:{CommonCard},
   setup() {
     const { chart, setOption } = useChart();
-    watch(chart, () => { setOption(chartOption) })
-    return { chart }
+    watch(chart, () => { setOption(chartOption); });
+    return { chart };
   },
-})
+});
 </script>
 
 <style lang="scss" scoped>

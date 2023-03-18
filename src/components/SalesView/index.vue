@@ -72,8 +72,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, computed, ref, watch, Ref } from 'vue'
-import { wrapperArray } from '@/utils/wrapper'
+import { defineComponent, inject, computed, ref, watch, type Ref } from 'vue';
+import { wrapperArray } from '@/utils/wrapper';
 import useChart from '@/hooks/useChart';
 export default defineComponent({
   name: 'SalesView',
@@ -85,8 +85,8 @@ export default defineComponent({
       {
         text: '最近一周',
         value() {
-          const start = new Date()
-          const end = new Date()
+          const start = new Date();
+          const end = new Date();
           start.setTime(start.getTime() - 3600 * 24 * 1000 * 7);
           return [start, end];
         },
@@ -94,33 +94,33 @@ export default defineComponent({
       {
         text: '最近一个月',
         value() {
-          const start = new Date()
-          const end = new Date()
-          start.setTime(start.getTime() - 3600 * 24 * 1000 * 30)
-          return [start, end]
+          const start = new Date();
+          const end = new Date();
+          start.setTime(start.getTime() - 3600 * 24 * 1000 * 30);
+          return [start, end];
         },
       },
       {
         text: '最近三个月',
         value() {
-          const start = new Date()
-          const end = new Date()
-          start.setTime(start.getTime() - 3600 * 24 * 1000 * 90)
-          return [start, end]
+          const start = new Date();
+          const end = new Date();
+          start.setTime(start.getTime() - 3600 * 24 * 1000 * 90);
+          return [start, end];
         },
       },
-    ]
+    ];
     const screenData = inject<Ref>('screenData');
     const orderRank = computed(() => wrapperArray(screenData?.value, 'orderRank'));
     const userRank = computed(() => wrapperArray(screenData?.value, 'userRank'));
-    const rankData = computed(() => activeIndex.value === 'orderFullYear' ? orderRank.value : userRank.value)
+    const rankData = computed(() => activeIndex.value === 'orderFullYear' ? orderRank.value : userRank.value);
     const onSelect = (index: string) => {
-      activeIndex.value = index
+      activeIndex.value = index;
     };
     const chartOption = computed(() => {
       const text = activeIndex.value === 'orderFullYear' ? '年度销售额' : '年度用户访问量';
       const data = wrapperArray(screenData?.value, activeIndex.value);
-      const axis = wrapperArray(screenData?.value, `${activeIndex.value}Axis`)
+      const axis = wrapperArray(screenData?.value, `${activeIndex.value}Axis`);
       return {
         title: {
           text,
@@ -177,10 +177,10 @@ export default defineComponent({
           right: 60,
           bottom: 50,
         },
-      }
+      };
     });
-    const { chart, setOption } = useChart()
-    watch(chartOption, setOption)
+    const { chart, setOption } = useChart();
+    watch(chartOption, setOption);
     return {
       activeIndex,
       radioValue,
@@ -189,9 +189,9 @@ export default defineComponent({
       date,
       onSelect,
       chart
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

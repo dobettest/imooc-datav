@@ -29,10 +29,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import BMapScatter from '@/components/BMapScatter/index.vue'
-import LiquidFill from '@/components/LiquidFill/index.vue'
-import WordCloud from '@/components/WordCloud/index.vue'
+import { defineComponent } from 'vue';
+import BMapScatter from '@/components/BMapScatter/index.vue';
+import LiquidFill from '@/components/LiquidFill/index.vue';
+import WordCloud from '@/components/WordCloud/index.vue';
 export default defineComponent({
   name: 'MapView',
   components: {
@@ -40,7 +40,7 @@ export default defineComponent({
     LiquidFill,
     WordCloud,
   },
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -20,17 +20,14 @@
     "yorkie": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.3",
-    "@babel/eslint-parser": "^7.21.3",
-    "@babel/preset-typescript": "^7.21.0",
     "@types/chai": "^4.2.15",
     "@types/mocha": "^8.2.1",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vue/cli-plugin-babel": "^5.0.8",
     "chai": "^4.2.0",
     "eslint": "^7.32.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
